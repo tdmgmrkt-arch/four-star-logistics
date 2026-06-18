@@ -171,30 +171,30 @@ export default function Home() {
               Learn More About Us <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="relative">
+          <div className="relative overflow-hidden rounded-lg">
             <img
               src="/images/port-operations.webp"
               alt="Port operations at twilight"
               className="rounded-lg w-full h-auto"
             />
-          </div>
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="py-16 bg-[oklch(0.1_0.02_260)] border-y border-border/30">
-        <div className="container grid grid-cols-3 gap-8 text-center">
-          <div>
-            <p className="text-4xl md:text-5xl font-bold text-gold">50</p>
-            <p className="text-sm text-muted-foreground mt-2">States Covered</p>
-          </div>
-          <div>
-            <p className="text-4xl md:text-5xl font-bold text-gold">24/7</p>
-            <p className="text-sm text-muted-foreground mt-2">Dispatch</p>
-          </div>
-          <div>
-            <p className="text-4xl md:text-5xl font-bold text-gold">100%</p>
-            <p className="text-sm text-muted-foreground mt-2">Bonded</p>
+            <div className="absolute bottom-6 left-6 right-6">
+              <div className="bg-[oklch(0.12_0.025_260)]/80 backdrop-blur-sm rounded-md p-4 border border-border/30">
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  <div>
+                    <p className="text-2xl md:text-3xl font-bold text-gold">50</p>
+                    <p className="text-xs text-muted-foreground mt-1">States Covered</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl md:text-3xl font-bold text-gold">24/7</p>
+                    <p className="text-xs text-muted-foreground mt-1">Operations</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl md:text-3xl font-bold text-gold">100%</p>
+                    <p className="text-xs text-muted-foreground mt-1">Bonded</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

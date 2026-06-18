@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import Layout from "@/components/Layout";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { Shield, Award, MapPin, CheckCircle, ArrowRight } from "lucide-react";
+import { Shield, Award, MapPin, CheckCircle, ArrowRight, MessageSquare } from "lucide-react";
 
 const credentials = [
   "Fully bonded and insured",
@@ -16,21 +16,25 @@ const credentials = [
 
 const values = [
   {
+    icon: Shield,
     title: "Safety First",
     description:
       "Every operation prioritizes the safety of cargo, personnel, and the public. We maintain rigorous safety protocols across all services.",
   },
   {
+    icon: CheckCircle,
     title: "Reliability",
     description:
       "We deliver on our commitments. Our clients trust us because we consistently meet deadlines and exceed expectations.",
   },
   {
+    icon: MessageSquare,
     title: "Communication",
     description:
       "Clear, fast, and transparent communication is the backbone of our operations. You always know where your freight stands.",
   },
   {
+    icon: Award,
     title: "Professionalism",
     description:
       "From our dispatch team to our carrier network, every interaction reflects our commitment to professional excellence.",
@@ -142,12 +146,15 @@ export default function About() {
             <h2 className="text-3xl font-bold">Core Values</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value) => (
               <div
                 key={value.title}
-                className="bg-card border border-border/50 rounded-lg p-6"
+                className="bg-card border border-border/30 rounded-lg p-6 h-full hover:border-gold/30 transition-all duration-300"
               >
+                <div className="w-12 h-12 rounded-md bg-gold/10 flex items-center justify-center mb-4">
+                  <value.icon className="w-6 h-6 text-gold" />
+                </div>
                 <h3 className="text-lg font-semibold mb-3">{value.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {value.description}
@@ -156,7 +163,7 @@ export default function About() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
             <div className="bg-card border border-border/50 rounded-lg p-6 text-center">
               <Award className="w-8 h-8 text-gold mx-auto mb-3" />
               <h4 className="font-semibold mb-2">Licensed Authority</h4>
