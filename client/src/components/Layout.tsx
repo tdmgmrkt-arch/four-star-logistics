@@ -60,7 +60,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="container flex items-center justify-between py-4">
           <Link href="/">
             <img
-              src="/manus-storage/4star_logo_transparent_d14d9c14.png"
+              src="/images/4star-logo.png"
               alt="4Star Logistics"
               className="h-12 w-auto"
             />
@@ -124,7 +124,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {/* Brand */}
             <div className="lg:col-span-1">
               <img
-                src="/manus-storage/4star_logo_transparent_d14d9c14.png"
+                src="/images/4star-logo.png"
                 alt="4Star Logistics"
                 className="h-10 w-auto mb-4"
               />

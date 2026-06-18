@@ -56,7 +56,7 @@ export default function About() {
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="/manus-storage/about-team_4ac34dcb.webp"
+            src="/images/about-team.webp"
             alt="Logistics operations center"
             className="w-full h-full object-cover"
           />

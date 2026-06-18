@@ -8,7 +8,7 @@ const resources = [
     title: "Broker Carrier Agreement",
     description:
       "Standard Broker-Carrier Agreement for carriers partnering with 4 Star Logistics. This document outlines the terms, obligations, insurance requirements, and operational standards for all freight transportation services.",
-    fileUrl: "/manus-storage/4SL-Broker-Carrier-Agreement_6dd65740.pdf",
+    fileUrl: "/images/4SL-Broker-Carrier-Agreement.pdf",
     fileType: "PDF",
     fileSize: "79 KB",
   },

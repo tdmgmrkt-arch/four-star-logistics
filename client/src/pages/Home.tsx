@@ -73,7 +73,7 @@ export default function Home() {
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="/manus-storage/hero-trucks_9b667e2b.webp"
+            src="/images/hero-trucks.webp"
             alt="Fleet of trucks on highway at dusk"
             className="w-full h-full object-cover"
           />
@@ -173,7 +173,7 @@ export default function Home() {
           </div>
           <div className="relative">
             <img
-              src="/manus-storage/port-operations_6cb03a1b.webp"
+              src="/images/port-operations.webp"
               alt="Port operations at twilight"
               className="rounded-lg w-full h-auto"
             />
