@@ -11,6 +11,9 @@ import {
   HardHat,
   ArrowRight,
   CheckCircle,
+  Phone,
+  Mail,
+  Globe,
 } from "lucide-react";
 
 const services = [
@@ -166,7 +169,7 @@ export default function Home() {
             </p>
             <Link
               href="/about"
-              className="inline-flex items-center gap-2 text-gold font-semibold text-sm hover:gap-3 transition-all"
+              className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-6 py-3 rounded-md font-semibold text-sm hover:bg-gold/90 transition-colors"
             >
               Learn More About Us <ArrowRight className="w-4 h-4" />
             </Link>
@@ -186,7 +189,7 @@ export default function Home() {
                   </div>
                   <div>
                     <p className="text-2xl md:text-3xl font-bold text-gold">24/7</p>
-                    <p className="text-xs text-muted-foreground mt-1">Operations</p>
+                    <p className="text-xs text-muted-foreground mt-1">Dispatch</p>
                   </div>
                   <div>
                     <p className="text-2xl md:text-3xl font-bold text-gold">100%</p>
@@ -200,7 +203,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-[oklch(0.1_0.02_260)]">
         <div
           ref={servicesSection.ref}
           className={`container transition-all duration-700 ${
@@ -232,7 +235,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link
               href="/services"
-              className="inline-flex items-center gap-2 text-gold font-semibold text-sm hover:gap-3 transition-all"
+              className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-6 py-3 rounded-md font-semibold text-sm hover:bg-gold/90 transition-colors"
             >
               View All Services <ArrowRight className="w-4 h-4" />
             </Link>
@@ -241,21 +244,19 @@ export default function Home() {
       </section>
 
       {/* Advantage Section */}
-      <section className="py-24 bg-[oklch(0.1_0.02_260)]">
+      <section className="py-24 bg-background">
         <div
           ref={advantageSection.ref}
           className={`container transition-all duration-700 ${
             advantageSection.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <div className="text-center mb-12">
-            <span className="text-xs uppercase tracking-widest text-gold font-semibold mb-3 block">
-              Our Advantage
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold">Why 4Star Logistics?</h2>
-          </div>
+          <span className="text-xs uppercase tracking-widest text-gold font-semibold mb-3 block">
+            Our Advantage
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold mb-12">Why 4Star Logistics?</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mb-16">
             {advantages.map((item) => (
               <div key={item} className="flex items-center gap-3 py-2">
                 <CheckCircle className="w-5 h-5 text-gold shrink-0" />
@@ -287,7 +288,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-[oklch(0.1_0.02_260)]">
         <div className="container text-center max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Need Freight Support?</h2>
           <p className="text-muted-foreground mb-8 leading-relaxed">
@@ -296,10 +297,25 @@ export default function Home() {
           </p>
           <Link
             href="/quote"
-            className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-8 py-3 rounded-md font-semibold text-sm hover:bg-gold/90 transition-colors"
+            className="inline-flex items-center gap-2 border border-border/50 text-foreground px-8 py-3 rounded-md font-semibold text-sm hover:border-gold/50 hover:text-gold transition-colors"
           >
             Request a Freight Quote <ArrowRight className="w-4 h-4" />
           </Link>
+        </div>
+      </section>
+
+      {/* Pre-Footer Contact Bar */}
+      <section className="py-8 bg-background border-t border-border/30">
+        <div className="container flex flex-wrap justify-center gap-8 md:gap-16 text-sm text-muted-foreground">
+          <span className="flex items-center gap-2">
+            <Phone className="w-4 h-4 text-gold" /> (555) 000-0000
+          </span>
+          <span className="flex items-center gap-2">
+            <Mail className="w-4 h-4 text-gold" /> info@fourstarlogistics.com
+          </span>
+          <span className="flex items-center gap-2">
+            <Globe className="w-4 h-4 text-gold" /> All 50 United States
+          </span>
         </div>
       </section>
     </Layout>
