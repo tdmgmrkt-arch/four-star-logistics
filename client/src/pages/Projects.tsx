@@ -5,28 +5,40 @@ import { ArrowRight } from "lucide-react";
 
 const projects = [
   {
-    title: "Port Cargo Coordination",
-    category: "Break Bulk",
+    image: "/images/port-operations.webp",
+    title: "Port Cargo Discharge & Transport",
+    category: "Break Bulk & Port Cargo",
+    location: "Gulf Coast, TX",
     description:
-      "Multi-phase port cargo operation coordinating oversized equipment transport from port to inland distribution centers.",
+      "Coordinated the discharge and over-the-road transport of break bulk cargo from a Gulf Coast port facility to multiple job sites across Texas. Managed carrier scheduling, heavy haul permitting, and on-site delivery coordination.",
+    stats: { loads: "45+", duration: "3 Weeks", distance: "200+ Miles" },
   },
   {
-    title: "Construction Material Hauling",
-    category: "Aggregate",
+    image: "/images/aggregate-hauling.webp",
+    title: "Large-Scale Aggregate Supply",
+    category: "Aggregate Hauling",
+    location: "Southeast Region",
     description:
-      "Large-scale aggregate and construction material delivery for a major commercial development project.",
+      "Provided ongoing aggregate hauling support for a major highway construction project. Coordinated daily deliveries of rock, gravel, and fill material to maintain project timelines and material availability on-site.",
+    stats: { loads: "500+", duration: "6 Months", distance: "Regional" },
   },
   {
-    title: "Industrial Equipment Transport",
-    category: "Project Cargo",
+    image: "/images/cargo-logistics.webp",
+    title: "Industrial Equipment Relocation",
+    category: "Project Solutions",
+    location: "Midwest, Multi-State",
     description:
-      "Specialized transport coordination for heavy industrial equipment across multiple state lines.",
+      "Managed the logistics planning and execution for relocating heavy industrial equipment across three states. Included route surveys, specialized carrier procurement, and coordinated delivery scheduling.",
+    stats: { loads: "28", duration: "2 Weeks", distance: "800+ Miles" },
   },
   {
-    title: "Job Site Logistics",
-    category: "Site Support",
+    image: "/images/branded-truck-side.webp",
+    title: "Nationwide Freight Program",
+    category: "Freight Management",
+    location: "All 50 States",
     description:
-      "Comprehensive job site logistics including material delivery, unloading, and placement coordination.",
+      "Established and managed an ongoing freight program for a commercial client requiring consistent nationwide shipping coverage. Built a dedicated carrier network and implemented tracking and reporting systems.",
+    stats: { loads: "1,200+", duration: "Ongoing", distance: "Nationwide" },
   },
 ];
 
@@ -71,15 +83,43 @@ export default function Projects() {
             {projects.map((project) => (
               <div
                 key={project.title}
-                className="bg-card border border-border/50 rounded-lg p-8 hover:border-gold/30 transition-colors duration-300"
+                className="bg-card border border-border/50 rounded-lg overflow-hidden hover:border-gold/30 transition-colors duration-300"
               >
-                <span className="text-xs uppercase tracking-wider text-gold font-semibold">
-                  {project.category}
-                </span>
-                <h3 className="text-xl font-semibold mt-3 mb-4">{project.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {project.description}
-                </p>
+                <div className="relative h-56 overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-gold/90 text-primary-foreground text-xs uppercase tracking-wider font-semibold px-3 py-1 rounded">
+                      {project.category}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-8">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                    <span>{project.location}</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-4">{project.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+                    {project.description}
+                  </p>
+                  <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border/50">
+                    <div>
+                      <p className="text-lg font-bold text-gold">{project.stats.loads}</p>
+                      <p className="text-xs text-muted-foreground">Loads</p>
+                    </div>
+                    <div>
+                      <p className="text-lg font-bold text-gold">{project.stats.duration}</p>
+                      <p className="text-xs text-muted-foreground">Duration</p>
+                    </div>
+                    <div>
+                      <p className="text-lg font-bold text-gold">{project.stats.distance}</p>
+                      <p className="text-xs text-muted-foreground">Distance</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
