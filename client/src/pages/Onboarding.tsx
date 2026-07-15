@@ -1,11 +1,54 @@
 import { Link } from "wouter";
 import Layout from "@/components/Layout";
-import { Mail, FileText, ShieldCheck, ArrowRight, AlertTriangle, CheckCircle } from "lucide-react";
+import { Mail, FileText, ShieldCheck, ArrowRight, AlertTriangle, CheckCircle, Send, Loader2 } from "lucide-react";
+import { useState } from "react";
 
 const DOCUSIGN_URL =
   "https://na4.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=08c3adc7-cec9-44fe-ac50-d59e337dc2bc&env=na4&acct=85f64db0-d3e6-4281-a4ce-70b5a33b216f&v=2";
 
+const WEBHOOK_URL =
+  "https://services.leadconnectorhq.com/hooks/FQWsrsuHOMee2ZVwwS1b/webhook-trigger/e3258b24-0c5e-4a51-99b7-a5ecf71a76ac";
+
 export default function Onboarding() {
+  const [formData, setFormData] = useState({
+    companyName: "",
+    contactName: "",
+    email: "",
+    phone: "",
+  });
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("submitting");
+    setErrorMsg("");
+
+    try {
+      await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        mode: "no-cors",
+        body: JSON.stringify({
+          company_name: formData.companyName,
+          contact_name: formData.contactName,
+          email: formData.email,
+          phone: formData.phone,
+          source: "4starlogistics.com — Carrier Onboarding",
+        }),
+      });
+      // no-cors mode means we can't read the response, but if no exception was thrown it was sent
+      setStatus("success");
+    } catch {
+      setStatus("error");
+      setErrorMsg("Something went wrong. Please try again or email us directly.");
+    }
+  };
+
   return (
     <Layout>
       {/* Breadcrumb */}
@@ -98,17 +141,114 @@ export default function Onboarding() {
                 </ul>
               </div>
 
-              {/* Email Documents */}
+              {/* Submit Form */}
               <div className="bg-card border border-border/50 rounded-lg p-6">
-                <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-3">Submit Insurance Documents</h3>
-                <p className="text-sm text-muted-foreground mb-4">Email all insurance documents to:</p>
-                <a
-                  href="mailto:jsutton@4starlogistics.com"
-                  className="inline-flex items-center gap-2 text-gold hover:text-gold/80 transition-colors font-medium"
-                >
-                  <Mail className="w-4 h-4" />
-                  jsutton@4starlogistics.com
-                </a>
+                <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-1">Submit Your Information</h3>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Fill out the form below to notify our team you're starting the onboarding process. Then email your insurance documents directly to{" "}
+                  <a href="mailto:jsutton@4starlogistics.com" className="text-gold hover:text-gold/80 transition-colors">
+                    jsutton@4starlogistics.com
+                  </a>.
+                </p>
+
+                {status === "success" ? (
+                  <div className="bg-[oklch(0.12_0.025_260)] border border-gold/30 rounded-lg p-6 text-center">
+                    <CheckCircle className="w-10 h-10 text-gold mx-auto mb-3" />
+                    <p className="text-base font-semibold text-foreground mb-1">Information Received</p>
+                    <p className="text-sm text-muted-foreground">
+                      Thank you — our team has been notified. Please email your insurance documents to{" "}
+                      <a href="mailto:jsutton@4starlogistics.com" className="text-gold hover:text-gold/80">
+                        jsutton@4starlogistics.com
+                      </a>{" "}
+                      to complete Step 1.
+                    </p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="companyName" className="block text-sm text-muted-foreground mb-1.5">
+                          Company Name <span className="text-gold">*</span>
+                        </label>
+                        <input
+                          id="companyName"
+                          type="text"
+                          placeholder="ABC Trucking LLC"
+                          required
+                          value={formData.companyName}
+                          onChange={handleChange}
+                          className="w-full bg-input border border-border/50 rounded-md px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-gold/50 transition-colors"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="contactName" className="block text-sm text-muted-foreground mb-1.5">
+                          Contact Name <span className="text-gold">*</span>
+                        </label>
+                        <input
+                          id="contactName"
+                          type="text"
+                          placeholder="John Smith"
+                          required
+                          value={formData.contactName}
+                          onChange={handleChange}
+                          className="w-full bg-input border border-border/50 rounded-md px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-gold/50 transition-colors"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="email" className="block text-sm text-muted-foreground mb-1.5">
+                          Email <span className="text-gold">*</span>
+                        </label>
+                        <input
+                          id="email"
+                          type="email"
+                          placeholder="john@abctrucking.com"
+                          required
+                          value={formData.email}
+                          onChange={handleChange}
+                          className="w-full bg-input border border-border/50 rounded-md px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-gold/50 transition-colors"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="phone" className="block text-sm text-muted-foreground mb-1.5">
+                          Phone <span className="text-gold">*</span>
+                        </label>
+                        <input
+                          id="phone"
+                          type="tel"
+                          placeholder="(555) 000-0000"
+                          required
+                          value={formData.phone}
+                          onChange={handleChange}
+                          className="w-full bg-input border border-border/50 rounded-md px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-gold/50 transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    {status === "error" && (
+                      <div className="p-3 bg-destructive/10 border border-destructive/30 rounded-md">
+                        <p className="text-sm text-destructive">{errorMsg}</p>
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={status === "submitting"}
+                      className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-6 py-2.5 rounded-md font-semibold text-sm hover:bg-gold/90 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {status === "submitting" ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Submitting...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-4 h-4" />
+                          Submit Information
+                        </>
+                      )}
+                    </button>
+                  </form>
+                )}
               </div>
 
               {/* Important Notice */}
