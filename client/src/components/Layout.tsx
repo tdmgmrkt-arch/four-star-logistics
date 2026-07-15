@@ -35,11 +35,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-6">
             <span className="flex items-center gap-2 whitespace-nowrap text-xs sm:text-sm">
               <Phone className="w-3.5 h-3.5 text-gold shrink-0" />
-              (555) 000-0000
+              1-254-600-3990
             </span>
             <span className="flex items-center gap-2 whitespace-nowrap text-xs sm:text-sm">
               <Mail className="w-3.5 h-3.5 text-gold shrink-0" />
-              info@fourstarlogistics.com
+              info@4starlogistics.com
             </span>
           </div>
           <span className="text-[10px] sm:text-xs tracking-wide uppercase text-left lg:text-center">
@@ -59,28 +59,37 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="container flex items-center justify-between py-4">
           <Link href="/">
             <img
-              src="/images/4star-logo.png"
+              src="/images/fourstar-logo-new-transparent.png"
               alt="4Star Logistics"
               className="h-12 w-auto"
             />
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 ${
-                  location === item.href
-                    ? "text-gold"
-                    : "text-muted-foreground hover:text-gold"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+          <div className="hidden lg:flex items-center gap-6">
+            <nav className="flex items-center gap-1">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 ${
+                    location === item.href
+                      ? "text-gold"
+                      : "text-muted-foreground hover:text-gold"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+            {/* Carrier Onboarding Button */}
+            <Link
+              href="/onboarding"
+              className="text-sm font-semibold px-4 py-2 rounded-md bg-gold text-primary-foreground hover:bg-gold/90 transition-colors duration-200 whitespace-nowrap"
+            >
+              Work With Us
+            </Link>
+          </div>
 
           {/* Mobile menu button */}
           <button
@@ -123,7 +132,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {/* Brand */}
             <div className="lg:col-span-1">
               <img
-                src="/images/4star-logo.png"
+                src="/images/fourstar-logo-new-transparent.png"
                 alt="4Star Logistics"
                 className="h-10 w-auto mb-4"
               />
@@ -175,11 +184,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <ul className="space-y-3 text-sm text-muted-foreground">
                 <li className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-gold" />
-                  (555) 000-0000
+                  1-254-600-3990
                 </li>
                 <li className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-gold" />
-                  info@fourstarlogistics.com
+                  info@4starlogistics.com
                 </li>
                 <li className="mt-4 pt-4 border-t border-border/30">
                   <span className="text-xs uppercase tracking-wider text-gold">Service Area</span>
@@ -194,7 +203,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               © 2026 4Star Logistics. All rights reserved.
             </p>
             <p className="text-xs text-muted-foreground">
-              Bonded & Insured | Licensed Freight Broker | MC# Pending
+              Bonded & Insured | Licensed Freight Broker
+            </p>
+            <p className="text-xs text-muted-foreground">
+              MC# 1790735 | USDOT# 4519982
             </p>
           </div>
         </div>

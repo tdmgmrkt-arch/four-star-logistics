@@ -10,6 +10,7 @@ import Services from "./pages/Services";
 import Projects from "./pages/Projects";
 import Quote from "./pages/Quote";
 import Contact from "./pages/Contact";
+import Onboarding from "./pages/Onboarding";
 
 function Router() {
   return (
@@ -20,6 +21,7 @@ function Router() {
       <Route path={"/projects"} component={Projects} />
       <Route path={"/quote"} component={Quote} />
       <Route path={"/contact"} component={Contact} />
+      <Route path={"/onboarding"} component={Onboarding} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

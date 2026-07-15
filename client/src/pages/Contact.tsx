@@ -109,7 +109,7 @@ export default function Contact() {
                     <input
                       id="phone"
                       type="tel"
-                      placeholder="(555) 000-0000"
+                      placeholder="1-254-600-3990"
                       value={formData.phone}
                       onChange={handleChange}
                       className="w-full bg-card border border-border/50 rounded-md px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-gold/50 transition-colors"
@@ -163,14 +163,22 @@ export default function Contact() {
                     <Phone className="w-5 h-5 text-gold mt-0.5" />
                     <div>
                       <p className="text-sm font-medium">Phone</p>
-                      <p className="text-sm text-muted-foreground">(555) 000-0000</p>
+                      <p className="text-sm text-muted-foreground">1-254-600-3990</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Mail className="w-5 h-5 text-gold mt-0.5" />
                     <div>
                       <p className="text-sm font-medium">Email</p>
-                      <p className="text-sm text-muted-foreground">info@fourstarlogistics.com</p>
+                      <p className="text-sm text-muted-foreground">info@4starlogistics.com</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-gold mt-0.5" />
+                    <div>
+                      <p className="text-sm font-medium">Address</p>
+                      <p className="text-sm text-muted-foreground">502 N Main Street #305</p>
+                      <p className="text-sm text-muted-foreground">Weatherford, TX 76086</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -179,6 +187,11 @@ export default function Contact() {
                       <p className="text-sm font-medium">Service Area</p>
                       <p className="text-sm text-muted-foreground">All 50 United States</p>
                     </div>
+                  </div>
+                  <div className="pt-4 mt-4 border-t border-border/30">
+                    <p className="text-sm font-medium">Credentials</p>
+                    <p className="text-sm text-muted-foreground">MC# 1790735</p>
+                    <p className="text-sm text-muted-foreground">USDOT# 4519982</p>
                   </div>
                   <div className="flex items-start gap-3">
                     <Clock className="w-5 h-5 text-gold mt-0.5" />

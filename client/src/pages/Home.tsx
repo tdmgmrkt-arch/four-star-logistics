@@ -308,10 +308,10 @@ export default function Home() {
       <section className="py-8 bg-background border-t border-border/30">
         <div className="container flex flex-wrap justify-center gap-8 md:gap-16 text-sm text-muted-foreground">
           <span className="flex items-center gap-2">
-            <Phone className="w-4 h-4 text-gold" /> (555) 000-0000
+            <Phone className="w-4 h-4 text-gold" /> 1-254-600-3990
           </span>
           <span className="flex items-center gap-2">
-            <Mail className="w-4 h-4 text-gold" /> info@fourstarlogistics.com
+            <Mail className="w-4 h-4 text-gold" /> info@4starlogistics.com
           </span>
           <span className="flex items-center gap-2">
             <Globe className="w-4 h-4 text-gold" /> All 50 United States

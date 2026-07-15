@@ -117,7 +117,7 @@ export default function Quote() {
                       <input
                         id="phone"
                         type="tel"
-                        placeholder="(555) 000-0000"
+                        placeholder="1-254-600-3990"
                         value={formData.phone}
                         onChange={handleChange}
                         className="w-full bg-card border border-border/50 rounded-md px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-gold/50 transition-colors"
@@ -261,11 +261,11 @@ export default function Quote() {
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 text-sm text-muted-foreground">
                     <Phone className="w-4 h-4 text-gold" />
-                    (555) 000-0000
+                    1-254-600-3990
                   </div>
                   <div className="flex items-center gap-3 text-sm text-muted-foreground">
                     <Mail className="w-4 h-4 text-gold" />
-                    info@fourstarlogistics.com
+                    info@4starlogistics.com
                   </div>
                 </div>
               </div>
