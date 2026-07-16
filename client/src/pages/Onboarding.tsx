@@ -29,23 +29,28 @@ export default function Onboarding() {
     setErrorMsg("");
 
     try {
-      await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        mode: "no-cors",
-        body: JSON.stringify({
-          company_name: formData.companyName,
-          contact_name: formData.contactName,
-          email: formData.email,
-          phone: formData.phone,
-          source: "4starlogistics.com — Carrier Onboarding",
-        }),
+      const params = new URLSearchParams({
+        company_name: formData.companyName,
+        contact_name: formData.contactName,
+        email: formData.email,
+        phone: formData.phone,
+        source: "4starlogistics.com — Carrier Onboarding",
       });
-      // no-cors mode means we can't read the response, but if no exception was thrown it was sent
-      setStatus("success");
+
+      const res = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params.toString(),
+      });
+
+      if (res.ok || res.status === 200) {
+        setStatus("success");
+      } else {
+        throw new Error(`HTTP ${res.status}`);
+      }
     } catch {
       setStatus("error");
-      setErrorMsg("Something went wrong. Please try again or email us directly.");
+      setErrorMsg("Something went wrong. Please try again or email us directly at jsutton@4starlogistics.com.");
     }
   };
 
