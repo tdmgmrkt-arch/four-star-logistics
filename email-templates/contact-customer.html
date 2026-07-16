@@ -1,0 +1,96 @@
+<!--
+  CONTACT — CUSTOMER CONFIRMATION
+  Suggested subject: Message received — 4 Star Logistics
+  Suggested from: info@4starlogistics.com (name: 4 Star Logistics)
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="supported-color-schemes" content="dark">
+<title>Message received</title>
+</head>
+<body style="margin:0;padding:0;background:#0F1120;font-family:'DM Sans','Inter',Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0F1120;">
+    <tr>
+      <td align="center" style="padding:32px 16px;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#181A2A;border:1px solid #2A2C3E;border-radius:8px;overflow:hidden;">
+
+          <!-- HEADER -->
+          <tr>
+            <td align="center" style="padding:40px 24px 28px;background:#0F1120;border-bottom:1px solid #2A2C3E;">
+              <img src="https://assets.cdn.filesafe.space/FQWsrsuHOMee2ZVwwS1b/media/6a59203f498fdf281aec679a.png" alt="4 Star Logistics" width="220" style="display:block;max-width:220px;width:100%;height:auto;border:0;outline:none;text-decoration:none;margin:0 auto;">
+            </td>
+          </tr>
+
+          <!-- HERO -->
+          <tr>
+            <td align="center" style="padding:40px 32px 8px;">
+              <div style="width:56px;height:56px;background:rgba(217,168,96,0.12);border:1px solid rgba(217,168,96,0.35);border-radius:50%;line-height:56px;color:#D9A860;font-size:26px;">✓</div>
+              <h1 style="margin:20px 0 8px;color:#EFEBE3;font-size:26px;font-weight:700;line-height:1.3;">Thanks, {{inboundWebhookRequest.name}} — we got your message</h1>
+              <p style="margin:0;color:#9EA0AC;font-size:15px;line-height:1.6;max-width:440px;">A member of our team will review your message and get back to you shortly. For time-sensitive freight matters, please call our dispatch line below.</p>
+            </td>
+          </tr>
+
+          <!-- YOUR MESSAGE -->
+          <tr>
+            <td style="padding:36px 32px 8px;">
+              <div style="color:#D9A860;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">Your message</div>
+              <div style="background:#0F1120;border:1px solid #2A2C3E;border-radius:6px;padding:20px;">
+                <div style="color:#EFEBE3;font-size:14px;font-weight:600;margin-bottom:8px;">{{inboundWebhookRequest.subject}}</div>
+                <div style="color:#9EA0AC;font-size:14px;line-height:1.7;white-space:pre-wrap;">{{inboundWebhookRequest.message}}</div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- QUICK CONTACT -->
+          <tr>
+            <td style="padding:32px 32px 8px;">
+              <div style="color:#D9A860;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">Need us sooner?</div>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="50%" style="padding-right:8px;vertical-align:top;">
+                    <div style="background:#0F1120;border:1px solid #2A2C3E;border-radius:6px;padding:16px;">
+                      <div style="color:#9EA0AC;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;">Dispatch</div>
+                      <div style="margin-top:6px;"><a href="tel:12546003990" style="color:#D9A860;font-size:15px;font-weight:600;text-decoration:none;">1-254-600-3990</a></div>
+                    </div>
+                  </td>
+                  <td width="50%" style="padding-left:8px;vertical-align:top;">
+                    <div style="background:#0F1120;border:1px solid #2A2C3E;border-radius:6px;padding:16px;">
+                      <div style="color:#9EA0AC;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;">Email</div>
+                      <div style="margin-top:6px;"><a href="mailto:info@4starlogistics.com" style="color:#D9A860;font-size:15px;font-weight:600;text-decoration:none;">info@4starlogistics.com</a></div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- SIGNOFF -->
+          <tr>
+            <td style="padding:32px 32px 40px;">
+              <p style="margin:0;color:#EFEBE3;font-size:14px;line-height:1.6;">We appreciate you reaching out.</p>
+              <p style="margin:8px 0 0;color:#9EA0AC;font-size:14px;line-height:1.6;">— The 4 Star Team</p>
+            </td>
+          </tr>
+        </table>
+
+        <!-- FOOTER -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;margin-top:16px;">
+          <tr>
+            <td align="center" style="padding:20px 16px;color:#9EA0AC;font-size:12px;line-height:1.7;">
+              <strong style="color:#EFEBE3;">4 Star Logistics</strong><br>
+              502 N Main Street #305, Weatherford, TX 76086<br>
+              <a href="tel:12546003990" style="color:#D9A860;text-decoration:none;">1-254-600-3990</a> · <a href="mailto:info@4starlogistics.com" style="color:#D9A860;text-decoration:none;">info@4starlogistics.com</a><br>
+              <span style="color:#666;font-size:11px;">MC# 1790735 · USDOT# 4519982 · Licensed in all 50 states</span>
+            </td>
+          </tr>
+        </table>
+
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

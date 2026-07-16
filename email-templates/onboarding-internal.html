@@ -1,0 +1,127 @@
+<!--
+  ONBOARDING — INTERNAL NOTIFICATION
+  Suggested subject: New Carrier Onboarding — {{inboundWebhookRequest.company_name}}
+  Suggested from: onboarding@4starlogistics.com
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="supported-color-schemes" content="dark">
+<title>New Carrier Onboarding</title>
+</head>
+<body style="margin:0;padding:0;background:#0F1120;font-family:'DM Sans','Inter',Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0F1120;">
+    <tr>
+      <td align="center" style="padding:32px 16px;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#181A2A;border:1px solid #2A2C3E;border-radius:8px;overflow:hidden;">
+
+          <!-- HEADER -->
+          <tr>
+            <td align="center" style="padding:32px 24px 20px;background:#0F1120;border-bottom:1px solid #2A2C3E;">
+              <img src="https://assets.cdn.filesafe.space/FQWsrsuHOMee2ZVwwS1b/media/6a59203f498fdf281aec679a.png" alt="4 Star Logistics" width="220" style="display:block;max-width:220px;width:100%;height:auto;border:0;outline:none;text-decoration:none;margin:0 auto;">
+            </td>
+          </tr>
+
+          <!-- BADGE -->
+          <tr>
+            <td style="padding:28px 32px 8px;">
+              <div style="display:inline-block;padding:6px 12px;background:rgba(217,168,96,0.12);border:1px solid rgba(217,168,96,0.35);color:#D9A860;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border-radius:4px;">New Carrier Onboarding</div>
+            </td>
+          </tr>
+
+          <!-- TITLE -->
+          <tr>
+            <td style="padding:12px 32px 8px;">
+              <h1 style="margin:0;color:#EFEBE3;font-size:24px;font-weight:700;line-height:1.3;">{{inboundWebhookRequest.company_name}}</h1>
+              <p style="margin:8px 0 0;color:#9EA0AC;font-size:14px;line-height:1.6;">New carrier submitted the onboarding form. Confirm Broker-Carrier Agreement signature and insurance docs before dispatching loads.</p>
+            </td>
+          </tr>
+
+          <!-- CARRIER -->
+          <tr>
+            <td style="padding:24px 32px 8px;">
+              <div style="color:#D9A860;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">Carrier</div>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                <tr><td style="padding:8px 0;color:#9EA0AC;font-size:13px;width:140px;">Company</td><td style="padding:8px 0;color:#EFEBE3;font-size:14px;font-weight:500;">{{inboundWebhookRequest.company_name}}</td></tr>
+                <tr><td style="padding:8px 0;color:#9EA0AC;font-size:13px;">Primary Contact</td><td style="padding:8px 0;color:#EFEBE3;font-size:14px;font-weight:500;">{{inboundWebhookRequest.contact_name}}</td></tr>
+                <tr><td style="padding:8px 0;color:#9EA0AC;font-size:13px;">Email</td><td style="padding:8px 0;font-size:14px;"><a href="mailto:{{inboundWebhookRequest.email}}" style="color:#D9A860;text-decoration:none;">{{inboundWebhookRequest.email}}</a></td></tr>
+                <tr><td style="padding:8px 0;color:#9EA0AC;font-size:13px;">Phone</td><td style="padding:8px 0;font-size:14px;"><a href="tel:{{inboundWebhookRequest.phone}}" style="color:#D9A860;text-decoration:none;">{{inboundWebhookRequest.phone}}</a></td></tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- DIVIDER -->
+          <tr><td style="padding:0 32px;"><div style="height:1px;background:#2A2C3E;"></div></td></tr>
+
+          <!-- CHECKLIST -->
+          <tr>
+            <td style="padding:24px 32px 8px;">
+              <div style="color:#D9A860;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">Onboarding Checklist</div>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                <tr>
+                  <td style="padding:10px 0;vertical-align:top;width:26px;">
+                    <div style="width:18px;height:18px;border:1.5px solid #D9A860;border-radius:4px;"></div>
+                  </td>
+                  <td style="padding:10px 0 10px 12px;color:#EFEBE3;font-size:14px;line-height:1.5;">Confirm Broker-Carrier Agreement signed via DocuSign</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 0;vertical-align:top;">
+                    <div style="width:18px;height:18px;border:1.5px solid #D9A860;border-radius:4px;"></div>
+                  </td>
+                  <td style="padding:10px 0 10px 12px;color:#EFEBE3;font-size:14px;line-height:1.5;">Verify Certificate of Insurance (COI) names 4 Star Logistics as Certificate Holder</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 0;vertical-align:top;">
+                    <div style="width:18px;height:18px;border:1.5px solid #D9A860;border-radius:4px;"></div>
+                  </td>
+                  <td style="padding:10px 0 10px 12px;color:#EFEBE3;font-size:14px;line-height:1.5;">Confirm CA 20 48 endorsement showing 4 Star as designated insured</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 0;vertical-align:top;">
+                    <div style="width:18px;height:18px;border:1.5px solid #D9A860;border-radius:4px;"></div>
+                  </td>
+                  <td style="padding:10px 0 10px 12px;color:#EFEBE3;font-size:14px;line-height:1.5;">Verify MC# / USDOT# authority is active and in good standing</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 0;vertical-align:top;">
+                    <div style="width:18px;height:18px;border:1.5px solid #D9A860;border-radius:4px;"></div>
+                  </td>
+                  <td style="padding:10px 0 10px 12px;color:#EFEBE3;font-size:14px;line-height:1.5;">Add carrier record to TMS and mark ready to dispatch</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- CTA -->
+          <tr>
+            <td align="center" style="padding:28px 32px 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="border-radius:6px;background:#D9A860;">
+                    <a href="mailto:{{inboundWebhookRequest.email}}?subject=Welcome%20to%204%20Star%20Logistics%20—%20Next%20Steps" style="display:inline-block;padding:14px 32px;color:#0F1120;font-size:14px;font-weight:700;letter-spacing:0.5px;text-decoration:none;">Contact Carrier →</a>
+                  </td>
+                </tr>
+              </table>
+              <div style="margin-top:16px;color:#9EA0AC;font-size:12px;">Source: {{inboundWebhookRequest.source}}</div>
+            </td>
+          </tr>
+        </table>
+
+        <!-- FOOTER -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;margin-top:16px;">
+          <tr>
+            <td align="center" style="padding:16px;color:#666;font-size:11px;line-height:1.7;">
+              Internal notification · 4 Star Logistics<br>
+              MC# 1790735 · USDOT# 4519982
+            </td>
+          </tr>
+        </table>
+
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
