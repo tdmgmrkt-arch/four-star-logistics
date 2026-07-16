@@ -1,7 +1,10 @@
 import { Link } from "wouter";
 import Layout from "@/components/Layout";
 import { useState } from "react";
-import { ArrowRight, Phone, Mail, CheckCircle } from "lucide-react";
+import { ArrowRight, Phone, Mail, CheckCircle, AlertTriangle, Loader2 } from "lucide-react";
+
+const WEBHOOK_URL =
+  "https://services.leadconnectorhq.com/hooks/FQWsrsuHOMee2ZVwwS1b/webhook-trigger/ff9009da-27e1-426f-8160-0422f18364b5";
 
 export default function Quote() {
   const [formData, setFormData] = useState({
@@ -17,6 +20,8 @@ export default function Quote() {
     timeline: "",
     notes: "",
   });
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -24,10 +29,42 @@ export default function Quote() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Form submission logic
-    alert("Quote request submitted! We will respond within 24 hours.");
+    setStatus("submitting");
+    setErrorMsg("");
+
+    try {
+      const params = new URLSearchParams({
+        name: formData.name,
+        company: formData.company,
+        email: formData.email,
+        phone: formData.phone,
+        service: formData.service,
+        pickup: formData.pickup,
+        delivery: formData.delivery,
+        cargo: formData.cargo,
+        weight: formData.weight,
+        timeline: formData.timeline,
+        notes: formData.notes,
+        source: "4starlogistics.com — Quote Request",
+      });
+
+      const res = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params.toString(),
+      });
+
+      if (res.ok || res.status === 200) {
+        setStatus("success");
+      } else {
+        throw new Error(`HTTP ${res.status}`);
+      }
+    } catch {
+      setStatus("error");
+      setErrorMsg("Something went wrong. Please try again or call us at 1-254-600-3990.");
+    }
   };
 
   return (
@@ -246,10 +283,27 @@ export default function Quote() {
 
                 <button
                   type="submit"
-                  className="w-full bg-gold text-primary-foreground py-3 rounded-md font-semibold text-sm hover:bg-gold/90 transition-colors"
+                  disabled={status === "submitting" || status === "success"}
+                  className="w-full bg-gold text-primary-foreground py-3 rounded-md font-semibold text-sm hover:bg-gold/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  Submit Quote Request
+                  {status === "submitting" && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {status === "success" ? "Request Received" : status === "submitting" ? "Submitting..." : "Submit Quote Request"}
                 </button>
+
+                {status === "success" && (
+                  <div className="flex items-start gap-3 p-4 rounded-md border border-gold/40 bg-gold/5">
+                    <CheckCircle className="w-5 h-5 text-gold shrink-0 mt-0.5" />
+                    <p className="text-sm text-foreground">
+                      Thanks — we received your quote request and will respond within 24 hours.
+                    </p>
+                  </div>
+                )}
+                {status === "error" && (
+                  <div className="flex items-start gap-3 p-4 rounded-md border border-destructive/40 bg-destructive/5">
+                    <AlertTriangle className="w-5 h-5 text-destructive shrink-0 mt-0.5" />
+                    <p className="text-sm text-foreground">{errorMsg}</p>
+                  </div>
+                )}
               </form>
             </div>
 

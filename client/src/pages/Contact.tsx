@@ -1,7 +1,10 @@
 import { Link } from "wouter";
 import Layout from "@/components/Layout";
 import { useState } from "react";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, CheckCircle, AlertTriangle, Loader2 } from "lucide-react";
+
+const WEBHOOK_URL =
+  "https://services.leadconnectorhq.com/hooks/FQWsrsuHOMee2ZVwwS1b/webhook-trigger/6913bed2-836c-426c-bc14-7c06115b9d48";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -12,6 +15,8 @@ export default function Contact() {
     subject: "",
     message: "",
   });
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -19,9 +24,37 @@ export default function Contact() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Message sent! We will get back to you shortly.");
+    setStatus("submitting");
+    setErrorMsg("");
+
+    try {
+      const params = new URLSearchParams({
+        name: formData.name,
+        company: formData.company,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message,
+        source: "4starlogistics.com — Contact Form",
+      });
+
+      const res = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params.toString(),
+      });
+
+      if (res.ok || res.status === 200) {
+        setStatus("success");
+      } else {
+        throw new Error(`HTTP ${res.status}`);
+      }
+    } catch {
+      setStatus("error");
+      setErrorMsg("Something went wrong. Please try again or call us at 1-254-600-3990.");
+    }
   };
 
   return (
@@ -146,10 +179,27 @@ export default function Contact() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-gold text-primary-foreground py-3 rounded-md font-semibold text-sm hover:bg-gold/90 transition-colors"
+                  disabled={status === "submitting" || status === "success"}
+                  className="w-full bg-gold text-primary-foreground py-3 rounded-md font-semibold text-sm hover:bg-gold/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  Send Message
+                  {status === "submitting" && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {status === "success" ? "Message Sent" : status === "submitting" ? "Sending..." : "Send Message"}
                 </button>
+
+                {status === "success" && (
+                  <div className="flex items-start gap-3 p-4 rounded-md border border-gold/40 bg-gold/5">
+                    <CheckCircle className="w-5 h-5 text-gold shrink-0 mt-0.5" />
+                    <p className="text-sm text-foreground">
+                      Thanks — we received your message and will get back to you shortly.
+                    </p>
+                  </div>
+                )}
+                {status === "error" && (
+                  <div className="flex items-start gap-3 p-4 rounded-md border border-destructive/40 bg-destructive/5">
+                    <AlertTriangle className="w-5 h-5 text-destructive shrink-0 mt-0.5" />
+                    <p className="text-sm text-foreground">{errorMsg}</p>
+                  </div>
+                )}
               </form>
             </div>
 
