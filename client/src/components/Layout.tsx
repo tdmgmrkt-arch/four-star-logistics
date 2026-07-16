@@ -117,6 +117,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   {item.label}
                 </Link>
               ))}
+              <Link
+                href="/onboarding"
+                className="text-sm font-semibold px-4 py-3 mt-3 rounded-md bg-gold text-primary-foreground hover:bg-gold/90 transition-colors duration-200 text-center"
+              >
+                Work With Us
+              </Link>
             </nav>
           </div>
         )}
