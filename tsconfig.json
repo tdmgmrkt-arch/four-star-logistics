@@ -1,6 +1,7 @@
 {
   "include": [
-    "client/src/**/*"
+    "client/src/**/*",
+    "api/**/*"
   ],
   "exclude": [
     "node_modules",
