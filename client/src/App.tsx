@@ -11,6 +11,8 @@ import Projects from "./pages/Projects";
 import Quote from "./pages/Quote";
 import Contact from "./pages/Contact";
 import Onboarding from "./pages/Onboarding";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 
 function Router() {
   return (
@@ -19,6 +21,8 @@ function Router() {
       <Route path={"/about"} component={About} />
       <Route path={"/services"} component={Services} />
       <Route path={"/projects"} component={Projects} />
+      <Route path={"/blog"} component={Blog} />
+      <Route path={"/blog/:slug"} component={BlogPost} />
       <Route path={"/quote"} component={Quote} />
       <Route path={"/contact"} component={Contact} />
       <Route path={"/onboarding"} component={Onboarding} />
