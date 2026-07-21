@@ -109,23 +109,21 @@ export default function Onboarding() {
                   </p>
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed pl-8">
-                  Prior to hauling any loads, carriers must contact their insurance agent and request that:
+                  Prior to hauling any loads, carriers must contact their insurance agent to arrange the coverage detailed below.
                 </p>
               </div>
 
               {/* Designated Insured Requirement */}
               <div className="bg-card border border-border/50 rounded-lg p-6">
                 <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">Designated Insured Requirement</h3>
-                <div className="bg-[oklch(0.12_0.025_260)] rounded-md p-4 border border-gold/20">
-                  <p className="text-sm text-foreground leading-relaxed">
-                    <span className="font-semibold text-gold">4 Star Logistics</span>
-                    <br />
-                    <span className="text-muted-foreground">4025 County Road 255, Stephenville, TX 76401</span>
+                <div className="bg-[oklch(0.12_0.025_260)] rounded-md p-5 border border-gold/20">
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                    Add the following as a <span className="text-foreground font-medium">Designated Insured</span> under endorsement <span className="text-gold font-semibold">CA 20 48</span> — Designated Insured for Covered Autos Liability Coverage (or an equivalent endorsement acceptable to your insurer):
                   </p>
-                  <p className="text-sm text-muted-foreground leading-relaxed mt-3">
-                    be added as a <span className="text-foreground font-medium">Designated Insured</span> under endorsement{" "}
-                    <span className="text-gold font-semibold">CA 20 48</span> (Designated Insured for Covered Autos Liability Coverage), or an equivalent endorsement acceptable to your insurer.
-                  </p>
+                  <div className="pl-4 border-l-2 border-gold/40">
+                    <p className="text-base font-semibold text-gold leading-snug">4 Star Logistics</p>
+                    <p className="text-sm text-muted-foreground leading-snug mt-1">502 N Main Street #305, Weatherford, TX 76086</p>
+                  </div>
                 </div>
               </div>
 
