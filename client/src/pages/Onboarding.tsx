@@ -10,6 +10,18 @@ const WEBHOOK_URL =
   "https://services.leadconnectorhq.com/hooks/FQWsrsuHOMee2ZVwwS1b/webhook-trigger/e3258b24-0c5e-4a51-99b7-a5ecf71a76ac";
 
 const STEP1_COMPLETE_KEY = "fsl-carrier-onboarding-step1-complete";
+const PREFILL_NAME_KEY = "fsl-carrier-onboarding-prefill-name";
+const PREFILL_EMAIL_KEY = "fsl-carrier-onboarding-prefill-email";
+
+// The Carrier role name comes from the PowerForm template; DocuSign accepts
+// pre-fill via `{RoleName}_UserName` and `{RoleName}_Email` query params.
+function buildDocusignUrl(name: string, email: string): string {
+  if (!name && !email) return DOCUSIGN_URL;
+  const extras = new URLSearchParams();
+  if (name) extras.set("Carrier_UserName", name);
+  if (email) extras.set("Carrier_Email", email);
+  return `${DOCUSIGN_URL}&${extras.toString()}`;
+}
 
 export default function Onboarding() {
   const [formData, setFormData] = useState({
@@ -21,14 +33,19 @@ export default function Onboarding() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [step1Unlocked, setStep1Unlocked] = useState(false);
+  const [prefill, setPrefill] = useState({ name: "", email: "" });
 
-  // Restore unlock state on mount so users who submitted earlier can continue
-  // to Step 2 after a refresh or coming back later in the same browser.
+  // Restore unlock + prefill state on mount so users who submitted earlier can
+  // continue to Step 2 after a refresh with their info still populated.
   useEffect(() => {
     try {
       if (localStorage.getItem(STEP1_COMPLETE_KEY) === "true") {
         setStep1Unlocked(true);
       }
+      setPrefill({
+        name: localStorage.getItem(PREFILL_NAME_KEY) ?? "",
+        email: localStorage.getItem(PREFILL_EMAIL_KEY) ?? "",
+      });
     } catch {
       // Private browsing or blocked storage — Step 2 stays locked until they
       // resubmit the form in this session.
@@ -62,8 +79,11 @@ export default function Onboarding() {
       if (res.ok || res.status === 200) {
         setStatus("success");
         setStep1Unlocked(true);
+        setPrefill({ name: formData.contactName, email: formData.email });
         try {
           localStorage.setItem(STEP1_COMPLETE_KEY, "true");
+          localStorage.setItem(PREFILL_NAME_KEY, formData.contactName);
+          localStorage.setItem(PREFILL_EMAIL_KEY, formData.email);
         } catch {
           // Storage blocked — unlock still applies for this session via state.
         }
@@ -341,7 +361,7 @@ export default function Onboarding() {
 
                 {step1Unlocked ? (
                   <a
-                    href={DOCUSIGN_URL}
+                    href={buildDocusignUrl(prefill.name, prefill.email)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-6 py-3 rounded-md font-semibold text-sm hover:bg-gold/90 transition-colors duration-200"
