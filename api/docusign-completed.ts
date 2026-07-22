@@ -658,15 +658,28 @@ function buildNoteBody(input: {
   uploadedDocs: { name: string; url: string }[];
 }): string {
   const date = new Date().toISOString().split("T")[0];
-  const base =
-    `Broker-Carrier Agreement signed via DocuSign on ${date}. ` +
-    `Envelope ID: ${input.envelopeId}. ` +
-    `Signed PDF and Certificate of Completion attached to this contact.`;
-  if (input.uploadedDocs.length === 0) return base;
-  const list = input.uploadedDocs
-    .map((d) => `- ${d.name}: ${d.url}`)
-    .join("\n");
-  return `${base}\n\nDocuments:\n${list}`;
+  const envelopeLink = `https://apps.docusign.com/send/documents/details/${input.envelopeId}`;
+
+  const lines = [
+    `Broker-Carrier Agreement signed via DocuSign on ${date}.`,
+    `Envelope ID: ${input.envelopeId}`,
+    ``,
+    `View / download signed PDF and Certificate of Completion in DocuSign:`,
+    envelopeLink,
+  ];
+
+  // If the account is ever upgraded to allow content in Connect payloads, PDFs
+  // will start uploading to GHL media automatically. Until then this block
+  // stays empty and only the DocuSign link is shown.
+  if (input.uploadedDocs.length > 0) {
+    lines.push(``);
+    lines.push(`Also attached to this contact:`);
+    for (const d of input.uploadedDocs) {
+      lines.push(`- ${d.name}: ${d.url}`);
+    }
+  }
+
+  return lines.join("\n");
 }
 
 function isRecord(v: unknown): v is AnyRecord {
