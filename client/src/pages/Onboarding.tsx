@@ -1,13 +1,15 @@
 import { Link } from "wouter";
 import Layout from "@/components/Layout";
-import { Mail, FileText, ShieldCheck, ArrowRight, AlertTriangle, CheckCircle, Send, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { Mail, FileText, ShieldCheck, ArrowRight, AlertTriangle, CheckCircle, Send, Loader2, Lock } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const DOCUSIGN_URL =
   "https://na4.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=08c3adc7-cec9-44fe-ac50-d59e337dc2bc&env=na4&acct=85f64db0-d3e6-4281-a4ce-70b5a33b216f&v=2";
 
 const WEBHOOK_URL =
   "https://services.leadconnectorhq.com/hooks/FQWsrsuHOMee2ZVwwS1b/webhook-trigger/e3258b24-0c5e-4a51-99b7-a5ecf71a76ac";
+
+const STEP1_COMPLETE_KEY = "fsl-carrier-onboarding-step1-complete";
 
 export default function Onboarding() {
   const [formData, setFormData] = useState({
@@ -18,6 +20,20 @@ export default function Onboarding() {
   });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [step1Unlocked, setStep1Unlocked] = useState(false);
+
+  // Restore unlock state on mount so users who submitted earlier can continue
+  // to Step 2 after a refresh or coming back later in the same browser.
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(STEP1_COMPLETE_KEY) === "true") {
+        setStep1Unlocked(true);
+      }
+    } catch {
+      // Private browsing or blocked storage — Step 2 stays locked until they
+      // resubmit the form in this session.
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -45,6 +61,12 @@ export default function Onboarding() {
 
       if (res.ok || res.status === 200) {
         setStatus("success");
+        setStep1Unlocked(true);
+        try {
+          localStorage.setItem(STEP1_COMPLETE_KEY, "true");
+        } catch {
+          // Storage blocked — unlock still applies for this session via state.
+        }
       } else {
         throw new Error(`HTTP ${res.status}`);
       }
@@ -84,7 +106,7 @@ export default function Onboarding() {
 
       {/* Steps */}
       <section className="pb-24 bg-background">
-        <div className="container max-w-4xl">
+        <div className="container">
 
           {/* Step 1 */}
           <div className="mb-12">
@@ -99,7 +121,7 @@ export default function Onboarding() {
               </div>
             </div>
 
-            <div className="ml-16 space-y-6">
+            <div className="space-y-6">
               {/* Intro */}
               <div className="bg-card border border-border/50 rounded-lg p-6">
                 <div className="flex items-start gap-3 mb-4">
@@ -268,7 +290,7 @@ export default function Onboarding() {
           </div>
 
           {/* Divider */}
-          <div className="flex items-center gap-4 mb-12 ml-16">
+          <div className="flex items-center gap-4 mb-12">
             <div className="flex-1 h-px bg-border/40" />
             <ArrowRight className="w-5 h-5 text-gold" />
             <div className="flex-1 h-px bg-border/40" />
@@ -277,16 +299,38 @@ export default function Onboarding() {
           {/* Step 2 */}
           <div className="mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gold flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">2</span>
+              <div
+                className={`shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-colors ${
+                  step1Unlocked ? "bg-gold" : "bg-muted"
+                }`}
+              >
+                <span
+                  className={`font-bold text-lg ${
+                    step1Unlocked ? "text-primary-foreground" : "text-muted-foreground"
+                  }`}
+                >
+                  2
+                </span>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-widest text-gold font-semibold mb-0.5">Step Two</p>
-                <h2 className="text-2xl font-bold text-foreground">Sign the Broker-Carrier Agreement</h2>
+                <p
+                  className={`text-xs uppercase tracking-widest font-semibold mb-0.5 ${
+                    step1Unlocked ? "text-gold" : "text-muted-foreground"
+                  }`}
+                >
+                  Step Two
+                </p>
+                <h2
+                  className={`text-2xl font-bold ${
+                    step1Unlocked ? "text-foreground" : "text-muted-foreground"
+                  }`}
+                >
+                  Sign the Broker-Carrier Agreement
+                </h2>
               </div>
             </div>
 
-            <div className="ml-16">
+            <div>
               <div className="bg-card border border-border/50 rounded-lg p-6">
                 <div className="flex items-start gap-3 mb-6">
                   <FileText className="w-5 h-5 text-gold mt-0.5 shrink-0" />
@@ -294,15 +338,34 @@ export default function Onboarding() {
                     Once your insurance documentation has been submitted and approved, proceed to sign the Broker-Carrier Agreement via DocuSign. The process is fully digital and takes only a few minutes to complete.
                   </p>
                 </div>
-                <a
-                  href={DOCUSIGN_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-6 py-3 rounded-md font-semibold text-sm hover:bg-gold/90 transition-colors duration-200"
-                >
-                  Sign Broker-Carrier Agreement
-                  <ArrowRight className="w-4 h-4" />
-                </a>
+
+                {step1Unlocked ? (
+                  <a
+                    href={DOCUSIGN_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-gold text-primary-foreground px-6 py-3 rounded-md font-semibold text-sm hover:bg-gold/90 transition-colors duration-200"
+                  >
+                    Sign Broker-Carrier Agreement
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
+                ) : (
+                  <div className="space-y-3">
+                    <button
+                      type="button"
+                      disabled
+                      aria-disabled="true"
+                      title="Complete Step 1 to unlock"
+                      className="inline-flex items-center gap-2 bg-muted text-muted-foreground px-6 py-3 rounded-md font-semibold text-sm cursor-not-allowed opacity-70"
+                    >
+                      <Lock className="w-4 h-4" />
+                      Sign Broker-Carrier Agreement
+                    </button>
+                    <p className="text-xs text-muted-foreground">
+                      Complete Step 1 above to unlock the Broker-Carrier Agreement.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
