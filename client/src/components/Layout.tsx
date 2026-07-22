@@ -216,6 +216,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               MC# 1790735 | USDOT# 4519982
             </p>
           </div>
+
+          <div className="mt-6 text-center">
+            <p className="text-xs text-muted-foreground">
+              Designed & Developed by{" "}
+              <a
+                href="https://tdmarketinggroup.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-foreground transition-colors"
+              >
+                TD Marketing Group
+              </a>
+            </p>
+          </div>
         </div>
       </footer>
     </div>
