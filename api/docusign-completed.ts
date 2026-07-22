@@ -170,11 +170,13 @@ export default async function handler(
       return res.status(200).json({ ok: true, note: "duplicate" });
     }
 
-    // Upload each document. Failures on individual docs are logged but do not
-    // abort the whole flow — we'd rather have the note + tag land than lose
-    // everything because the certificate upload timed out.
+    // Upload each document that came with actual PDF bytes. Docs without
+    // bytes (the common case on this account plan) are still linked in the
+    // note via direct DocuSign preview URLs. Failures on individual uploads
+    // are logged but do not abort the whole flow.
     const uploadedDocs: { name: string; url: string }[] = [];
     for (const doc of documents) {
+      if (!doc.bytes) continue;
       try {
         const filename = buildFilename(summary.envelopeId!, doc);
         const uploaded = await ghl.uploadFile({
@@ -192,6 +194,8 @@ export default async function handler(
 
     const note = buildNoteBody({
       envelopeId: summary.envelopeId!,
+      accountId: summary.accountId,
+      documents,
       uploadedDocs,
     });
     await ghl.addNote(contact.id, note);
@@ -284,6 +288,7 @@ interface EventSummary {
   event: string | undefined;
   envelopeId: string | undefined;
   envelopeStatus: string | undefined;
+  accountId: string | undefined;
   signerEmail: string | undefined;
   signerName: string | undefined;
 }
@@ -310,12 +315,16 @@ function extractSummary(payload: AnyRecord): EventSummary {
     pickString(legacyEnvelope?.status) ??
     pickString(payload.status);
 
+  const accountId =
+    pickString(data?.accountId) ?? pickString(payload.accountId);
+
   const completedSigner = findCompletedSigner(payload);
 
   return {
     event,
     envelopeId,
     envelopeStatus,
+    accountId,
     signerEmail: completedSigner?.email?.trim().toLowerCase(),
     signerName: completedSigner?.name,
   };
@@ -385,44 +394,61 @@ function findCompletedSigner(
 }
 
 interface EnvelopeDocument {
+  documentId: string;
   name: string;
   type: string | undefined;
-  bytes: Buffer;
+  bytes: Buffer | undefined; // undefined when PDFBytes not included in payload
 }
 
 /**
- * Pull PDF documents out of the payload. DocuSign v2.1 SIM places them in
- * `data.envelopeDocuments[]` when "Include Documents" is enabled. The
- * Certificate of Completion arrives as another entry (type = "summary").
+ * Pull document metadata (and PDF bytes when included) from the payload.
+ * DocuSign v2.1 SIM lists documents in `data.envelopeDocuments[]` with
+ * `documentId` + `name` + `type` always present. `PDFBytes` is only present
+ * when the account plan allows content inclusion in Connect webhooks.
+ *
+ * We return all documents (with or without bytes) so we can build direct
+ * DocuSign preview links even when we don't have the raw PDF to upload.
  */
 function extractDocuments(payload: AnyRecord): EnvelopeDocument[] {
   const data = isRecord(payload.data) ? payload.data : undefined;
+  const envelopeSummary =
+    data && isRecord(data.envelopeSummary) ? data.envelopeSummary : undefined;
   const rawDocs =
-    data && Array.isArray(data.envelopeDocuments)
+    (envelopeSummary && Array.isArray(envelopeSummary.envelopeDocuments)
+      ? envelopeSummary.envelopeDocuments
+      : undefined) ??
+    (data && Array.isArray(data.envelopeDocuments)
       ? data.envelopeDocuments
-      : Array.isArray(payload.envelopeDocuments)
-        ? payload.envelopeDocuments
-        : [];
+      : undefined) ??
+    (Array.isArray(payload.envelopeDocuments)
+      ? payload.envelopeDocuments
+      : []);
 
   const out: EnvelopeDocument[] = [];
   for (const raw of rawDocs) {
     if (!isRecord(raw)) continue;
+    const documentId = pickString(raw.documentId);
+    if (!documentId) continue;
+
     const base64 =
       pickString(raw.PDFBytes) ??
       pickString(raw.pdfBytes) ??
       pickString(raw.documentBase64);
-    if (!base64) continue;
-    let buf: Buffer;
-    try {
-      buf = Buffer.from(base64, "base64");
-    } catch {
-      continue;
+    let bytes: Buffer | undefined;
+    if (base64) {
+      try {
+        const buf = Buffer.from(base64, "base64");
+        if (buf.length > 0) bytes = buf;
+      } catch {
+        // ignore — treat as no bytes
+      }
     }
-    if (buf.length === 0) continue;
+
     out.push({
+      documentId,
       name: pickString(raw.name) ?? "document",
       type: pickString(raw.type),
-      bytes: buf,
+      bytes,
     });
   }
   return out;
@@ -655,17 +681,18 @@ function slug(s: string): string {
 
 function buildNoteBody(input: {
   envelopeId: string;
+  accountId: string | undefined;
+  documents: EnvelopeDocument[];
   uploadedDocs: { name: string; url: string }[];
 }): string {
   const date = new Date().toISOString().split("T")[0];
-  const envelopeLink = `https://apps.docusign.com/send/documents/details/${input.envelopeId}`;
 
   const lines = [
     `Broker-Carrier Agreement signed via DocuSign on ${date}.`,
     `Envelope ID: ${input.envelopeId}`,
     ``,
     `View / download signed PDF and Certificate of Completion in DocuSign:`,
-    envelopeLink,
+    `https://apps.docusign.com/send/documents/details/${input.envelopeId}`,
   ];
 
   // If the account is ever upgraded to allow content in Connect payloads, PDFs
